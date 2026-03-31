@@ -8,7 +8,7 @@ public class DatabaseConfig {
     private static final String URL = "jdbc:h2:./data/studentdb";
 
     public static Connection getConnection() throws SQLException {
-        // TODO return a DriverManager connection
-        return null;
+        //  returns a DriverManager connection
+        return DriverManager.getConnection(URL);
     }
 }
