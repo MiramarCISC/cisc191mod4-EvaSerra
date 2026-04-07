@@ -21,7 +21,7 @@ public class JdbcCourseRepository implements CourseRepository {
 
         try(Connection connection = DatabaseConfig.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO courses VALUES (?, ?, ?)"
+                    "INSERT INTO courses (id, title, student_id) VALUES (?, ?, ?)" // ensures correct even if order change
             );
 
             preparedStatement.setInt(1, course.getId());
@@ -46,7 +46,7 @@ public class JdbcCourseRepository implements CourseRepository {
 
         try(Connection conn = DatabaseConfig.getConnection()){
             PreparedStatement prepStatement = conn.prepareStatement(
-                    "SELECT * FROM courses WHERE student_Id = ?"
+                    "SELECT * FROM courses WHERE student_id = ?"
             );
 
             prepStatement.setInt(1, studentId);
@@ -56,9 +56,9 @@ public class JdbcCourseRepository implements CourseRepository {
             while(result.next()){
                 courseList.add(
                     new  Course(
-                        result.getInt(1),
-                        result.getString(2),
-                        result.getInt(3)
+                        result.getInt("id"),
+                        result.getString("title"),
+                        result.getInt("student_id")
                     )
                 );
             }
@@ -83,9 +83,10 @@ public class JdbcCourseRepository implements CourseRepository {
             while(result.next()){
                 courseList.add(
                         new  Course(
-                                result.getInt(1),
-                                result.getString(2),
-                                result.getInt(3)
+                                // won't break even if column order change
+                                result.getInt("id"),
+                                result.getString("title"),
+                                result.getInt("student_id")
                         )
                 );
             }
