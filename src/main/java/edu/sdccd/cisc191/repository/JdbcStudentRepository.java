@@ -49,9 +49,9 @@ public class JdbcStudentRepository implements StudentRepository {
 
             if(result.first()){
                 return new Student(
-                    result.getInt(1),
-                    result.getString(2),
-                    result.getDouble(3)
+                    result.getInt("id"),
+                    result.getString("name"),
+                    result.getDouble("gpa") // use column name instead of number
                 );
             } else{ return null; }
         } catch (SQLException e){
@@ -65,15 +65,15 @@ public class JdbcStudentRepository implements StudentRepository {
 
         try(Connection conn = DatabaseConfig.getConnection()) {
             PreparedStatement prepStat = conn.prepareStatement(
-                    "SELECT * FROM students");
+                    "SELECT * FROM students ORDER BY id");
             ResultSet result = prepStat.executeQuery();
 
             while (result.next()){
                 studentList.add(
                         new Student(
-                                result.getInt(1),
-                                result.getString(2),
-                                result.getDouble(3)
+                                result.getInt("id"),
+                                result.getString("name"),
+                                result.getDouble("gpa")
                         )
                 );
             }
@@ -97,8 +97,8 @@ public class JdbcStudentRepository implements StudentRepository {
             PreparedStatement prepStat = conn.prepareStatement(
                     "UPDATE students SET gpa  = ? WHERE id = ?");
 
-            prepStat.setDouble(1, newGpa);
-            prepStat.setInt(2, id);
+            prepStat.setDouble("gpa", newGpa);
+            prepStat.setInt("id", id);
 
             prepStat.executeUpdate();
 
@@ -117,7 +117,7 @@ public class JdbcStudentRepository implements StudentRepository {
             PreparedStatement prepStat = conn.prepareStatement(
                     "DELETE FROM students WHERE id = ?");
 
-            prepStat.setInt(1, id);
+            prepStat.setInt("id", id);
 
             prepStat.executeUpdate();
 

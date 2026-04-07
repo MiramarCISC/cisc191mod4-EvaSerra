@@ -10,9 +10,12 @@ public class Student {
 
         if (id <= 0) {
             throw new IllegalArgumentException("Id must be a number bigger than 0");
-        } else if (name.isBlank()) {
+        }
+        // added null check
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Invalid name");
-        } else if (gpa <= 0.0 || gpa >= 4.0) {
+        }
+        if (gpa <= 0.0 || gpa >= 4.0) {
             throw new IllegalArgumentException("GPA must be a number between 0.0 and 4.0");
         }
 
@@ -42,7 +45,7 @@ public class Student {
 
     public void setGpa(double gpa) {
         if (gpa <= 0.0 || gpa >= 4.0) {
-            throw new IllegalArgumentException("New GPA must be between 0 and 4");
+            throw new IllegalArgumentException("New GPA must be between 0.0 and 4.0"); // consistency in error messages
         }
         this.gpa = gpa;
     }

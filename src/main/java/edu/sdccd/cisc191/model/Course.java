@@ -9,10 +9,13 @@ public class Course {
         // validate fields and assign them
         if (id <= 0) {
             throw new IllegalArgumentException("Class Id must be a number bigger than 0");
-        } else if (title.isBlank()) {
+        }
+        // remove el/if chain to run checks independently
+        if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("Invalid title");
-        } else if (studentId <= 0) {
-            throw new IllegalArgumentException("Class Id must be a number bigger than 0");
+        }
+        if (studentId <= 0) {
+            throw new IllegalArgumentException("Student Id must be a number bigger than 0"); // differentiate error messages
         }
 
         this.id = id;
